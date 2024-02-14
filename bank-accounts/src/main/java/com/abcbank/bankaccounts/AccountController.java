@@ -1,20 +1,31 @@
 package com.abcbank.bankaccounts;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
 	
-	@Autowired
-    private AccountService accountService;
 
-    @PostMapping
+    private AccountService accountService;
+	
+    public AccountController(AccountService accountService) {
+		super();
+		this.accountService = accountService;
+	}
+
+	@PostMapping
     public Account createAccount(@RequestBody Account account) {
         return accountService.createAccount(account);
     }
+	
+	@GetMapping("/all")
+	public List<Account> Accounts () {
+		return this.accountService.all();
+	}
 
     @GetMapping("/{id}")
     public Account getAccount(@PathVariable Long id) {
